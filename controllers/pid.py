@@ -17,4 +17,5 @@ class Controller(BaseController):
     self.error_integral += error
     error_diff = error - self.prev_error
     self.prev_error = error
-    return self.p * error + self.i * self.error_integral + self.d * error_diff
+    action = self.p * error + self.i * self.error_integral + self.d * error_diff
+    return action

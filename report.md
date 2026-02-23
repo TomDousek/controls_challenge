@@ -1,0 +1,2 @@
+## myPid controller
+At the beginning, with help of Claude, I improved baseline pid controller from repository by adding feedforward weighted average of future lateral acceleration. Than the coeficients (p, i, d,ff_weight, ff_horizon) were optimized in Bayesian optimizer optuna so the cost sinked to around 71. The optimizer first choses coeficients randomly and based on learned information continues to find optimal coeficient in given space.

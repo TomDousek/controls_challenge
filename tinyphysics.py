@@ -119,7 +119,7 @@ class TinyPhysicsSimulator:
   def get_data(self, data_path: str) -> pd.DataFrame:
     df = pd.read_csv(data_path)
     processed_df = pd.DataFrame({
-      'roll_lataccel': np.sin(df['roll'].values) * ACC_G,
+      'roll_lataccel': np.sin(df['roll'].values) * ACC_G, # conversion from road roll (sklon) in radians to acceleration in m/s*s
       'v_ego': df['vEgo'].values,
       'a_ego': df['aEgo'].values,
       'target_lataccel': df['targetLateralAcceleration'].values,
@@ -166,8 +166,8 @@ class TinyPhysicsSimulator:
     self.state_history.append(state)
     self.target_lataccel_history.append(target)
     self.futureplan = futureplan
-    self.control_step(self.step_idx)
-    self.sim_step(self.step_idx)
+    self.control_step(self.step_idx)  # Computes new control command (action) based on target_lat_acc_history, curr_lat_acc, state (one row in data table) and future plan (next 50 rows in data table). The action is added to action_history.
+    self.sim_step(self.step_idx)      # Computes actual_lat_acc based on last 20 states (state_history), actions (action_history) and actual_lat_accelerations (current_lataccel_history), target is not used here!
     self.step_idx += 1
 
   def plot_data(self, ax, lines, axis_labels, title) -> None:
@@ -176,6 +176,7 @@ class TinyPhysicsSimulator:
       ax.plot(line, label=label)
     ax.axline((CONTROL_START_IDX, 0), (CONTROL_START_IDX, 1), color='black', linestyle='--', alpha=0.5, label='Control Start')
     ax.legend()
+    ax.axhline(y=0.0, color='r') # Added by me for better recognition of y = 0 
     ax.set_title(f"{title} | Step: {self.step_idx}")
     ax.set_xlabel(axis_labels[0])
     ax.set_ylabel(axis_labels[1])
