@@ -19,9 +19,6 @@ class Controller(BaseController):
   # state = one line of -> [0] roll_lataccel, [1] vEgo, [2] aEgo
   # future_plan = next 50 lines of -> target_lataccel [0], roll_lataccel [1], vEgo [2], aEgo [3]
   def update(self, target_lataccel, current_lataccel, state, future_plan):
-    #average = 0
-    #if(len(future_plan[0][:20]) > 0):
-    #  average = (np.mean(future_plan[0][:20]))
     dt = 1/FPS
     error = (target_lataccel - current_lataccel)
     self.error_integral += error * dt
@@ -39,6 +36,8 @@ class Controller(BaseController):
       ff_target = np.dot(future_plan[0][:horizon], weights)
       feedforward = self.ff_weight * ff_target
 
-    action = pid + feedforward
+    # subtracting roll_lataccel from final action, because it is easier to turn
+    # in the direction of road so the steering action can be lowered
+    action = pid + feedforward - state[0] * 0.53
     action = np.clip(action, -1, 1)
     return action

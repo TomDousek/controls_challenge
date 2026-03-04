@@ -1,6 +1,4 @@
 import numpy as np
-
-weights = -np.arange(10)*0.1
-weights = np.exp(weights)
-weights /= weights.sum()
-print(weights)
+pid_action = 0.24
+candidates = np.linspace(pid_action * 0.7, pid_action * 1.3, 5)
+print(candidates)
