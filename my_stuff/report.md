@@ -1,2 +1,5 @@
 ## myPid controller
 At the beginning, with help of Claude, I improved baseline pid controller from repository by adding feedforward weighted average of future lateral acceleration. Than the coeficients (p, i, d,ff_weight, ff_horizon) were optimized in Bayesian optimizer optuna so the cost sinked to around 71 on 100 samples. The optimizer first choses coeficients randomly and based on learned information continues to find optimal coeficient in given space.
+
+Then I tried to incorporate other available information (road roll and velocity). Road roll and gain scheduling based on vEgo were again optimized in Bayesian optimizer and resulting controler scored 55 on same 100 samples of data. Unfortunatelly when tested on larger amount of data, on which the controler was not trained, it scores badly (90s) due to overfitting. 
+In following developement, the optimization has to be concluded on whole dataset (20000 files). More computation will be needed. 

@@ -9,26 +9,26 @@ class Controller(BaseController):
   """
   def __init__(self):
     # Pomalá jízda (v < 10 m/s ~ 36 km/h)
-    self.p_slow = 0.14789763501268957
-    self.i_slow = 0.9490082840140005
-    self.d_slow = -0.020545903778022893
+    self.p_slow = 0.402
+    self.i_slow = 0.100
+    self.d_slow = -0.003
 
     # Střední rychlost (10 <= v < 25 m/s ~ 90 km/h)
-    self.p_mid = 0.14875687326588044
-    self.i_mid = 0.9024102037485747
-    self.d_mid = -0.009579513578045963
+    self.p_mid = 0.361
+    self.i_mid = 0.833
+    self.d_mid = -0.001
 
     # Vysoká rychlost (v >= 25 m/s ~ 90+ km/h)
-    self.p_fast = 0.15214575518536974
-    self.i_fast = 1.0758267181735512
-    self.d_fast = -0.001027195048226999
+    self.p_fast = 0.156
+    self.i_fast = 1.134
+    self.d_fast = -0.011
 
     self.error_integral = 0
     self.prev_error = 0
 
-    self.ff_weight = 0.4075256914050055
-    self.ff_horizon = 5
-    self.roll_comp = 0.6210321363220861
+    self.ff_weight = 0.410
+    self.ff_horizon = 6
+    self.roll_comp = 0.444
 
   def update(self, target_lataccel, current_lataccel, state, future_plan):
     dt = 1 / FPS
